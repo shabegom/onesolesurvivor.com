@@ -37,6 +37,9 @@ jobs:
   deploy:
     docker:
         - image: circleci/python:2.7-jessie
+    branches:
+        only:
+            - master
     steps:
         - run:
             name: Install awscli
@@ -45,17 +48,3 @@ jobs:
             name: Deploy to S3
             command: aws s3 sync build. s3://onesolesurvivor.com --delete
 
- workflows:
-     version: 2
-     build:
-         jobs:
-             - build
-    build_and_deply:
-        jobs:
-            - build
-            - deploy:
-                requires:
-                    - build
-                filters:
-                    branches:
-                        only: master
