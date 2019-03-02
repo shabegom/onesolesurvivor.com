@@ -46,6 +46,9 @@ jobs:
   deploy:
     docker:
       - image: circleci/python:2.7-jessie
+    branches:
+      ignore:
+        - develop
     steps:
       - attach_workspace:
         at: .
