@@ -34,10 +34,13 @@ jobs:
 
       # build
       - run: yarn build
- deploy:
+  deploy:
      docker:
          - image: circleci/python:2.7-jessie
     working_directory: ~/onesolesurvivor.com
+    branches:
+        only:
+            - master
     steps:
         - run:
             name: Install awscli
