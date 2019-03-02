@@ -1,50 +1,72 @@
 version: 2
 jobs:
+  prepare:
+    docker:
+       - image: circleci/node:8.11
+    steps:
+        - checkout
+        - restore_cache:
+            keys:
+              - v1-dependencies-{ { checksum 'package.json' } }
+        - run: yarn install
+        - save_cache:
+            paths:
+              - node_modules
+            key: v1-dependences-{ { checksum 'package.json' } }
+        - persist_to_workspace:
+            root: .
+            paths:
+              - node_modules
   build:
     docker:
-      # specify the version you desire here
-      - image: circleci/node:8.11
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
-    working_directory: ~/repo
-
+       - image: circleci/node:8.11
     steps:
       - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-      # run tests!
-      - run: yarn test
-
-      # build
+      - attach_workspace:
+          at: .
       - run: yarn build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build
+  test:
+    docker:
+       - image: circleci/node:8.11
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: yarn test
   deploy:
     docker:
-        - image: circleci/python:2.7-jessie
-    branches:
-        only:
-            - master
+       - image: circleci/python:2.7-jessie
     steps:
-        - run:
-            name: Install awscli
-            command: sudo pip install awscli
-        - run:
-            name: Deploy to S3
-            command: aws s3 sync build. s3://test-ci-deply-survivor --delete
+      - attach_workspace:
+          at: .
+      - run:
+          name: Install awscli
+          command: sudo pip install awscli
+      - run:
+          name: Deploy to S3
+          command: aws s3 sync ./build s3://test-ci-deploy-survivor --delete
 
+workflows:
+    version: 2
+    deploy:
+        jobs:
+          - prepare
+          - test:
+              requires:
+                - prepare
+          - build:
+              requires:
+                - prepare  
+              filters:
+                branches:
+                    only: master
+          - deploy:
+              requires:
+                - build
+              filters:
+                branches:
+                    only: master
