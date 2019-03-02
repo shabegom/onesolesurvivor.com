@@ -54,24 +54,3 @@ jobs:
       - run:
         name: Deploy to S3
         command: aws s3 sync ./build s3://test-ci-deploy-survivor --delete
-
-workflows:
-  version: 2
-  test:
-    jobs:
-      - prepare
-      - test:
-        requires:
-          - prepare
-  deploy:
-    jobs:
-      - prepare
-      - build:
-        requires:
-          - prepare
-      - deploy:
-        requires:
-          - build
-        filters:
-          branches:
-            only: master
