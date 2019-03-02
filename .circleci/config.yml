@@ -14,8 +14,8 @@ jobs:
               - node_modules
             key: v1-dependences-{ { checksum 'package.json' } }
         - persist_to_workspace:
-	          root: .
-            paths:
+            root: .
+            # paths:
               - node_modules
   build:
     docker:
