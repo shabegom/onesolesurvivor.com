@@ -3,20 +3,20 @@ jobs:
   prepare:
     docker:
        - image: circleci/node:8.11
-		steps:
-			- checkout
-			- restore_cache:
-					keys:
-						- v1-dependencies-{ { checksum 'package.json' } }
-			- run: yarn install
-			- save_cache:
-					paths:
-						- node_modules
-					key: v1-dependences-{ { checksum 'package.json' } }
-			- persist_to_workspace:
-					root: .
-					paths:
-						- node_modules
+    steps:
+        - checkout
+        - restore_cache:
+            keys:
+              - v1-dependencies-{ { checksum 'package.json' } }
+        - run: yarn install
+        - save_cache:
+            paths:
+              - node_modules
+            key: v1-dependences-{ { checksum 'package.json' } }
+        - persist_to_workspace:
+	          root: .
+            paths:
+              - node_modules
   build:
     docker:
        - image: circleci/node:8.11
