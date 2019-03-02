@@ -1,4 +1,4 @@
-on: 2
+version: 2
 jobs:
   build:
     docker:
@@ -31,3 +31,18 @@ jobs:
 
       # run tests!
       - run: yarn test
+
+      # build
+      - run: yarn build
+ deploy:
+     docker:
+         - image: circleci/python:2.7-jessie
+    working_directory: ~/onesolesurvivor.com
+    steps:
+        - run:
+            name: Install awscli
+            command: sudo pip install awscli
+        - run:
+            name: Deploy to S3
+            command: aws s3 sync build. s3://onesolesurvivor.com --delete
+
