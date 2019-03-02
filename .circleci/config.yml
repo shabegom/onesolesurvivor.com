@@ -1,5 +1,5 @@
-version: 2
 jobs:
+version: 2
   prepare:
     docker:
      - image: circleci/node:8.11
@@ -13,34 +13,33 @@ jobs:
           - v1-dependencies-
 
       - run: yarn install
-
       - save_cache:
         paths:
             - node_modules
         key: v1-dependencies-{{ checksum "package.json" }}
       - persist_to_workspace:
-        root: .
-        paths:
-          - node_modules
+          root: .
+          paths:
+            - node_modules
   build:
     docker:
      - image: circleci/node:8.11
     steps:
       - checkout
       - attach_workspace:
-        at: .
+          at: .
       - run: yarn build
       - persist_to_workspace:
-        root: .
-        paths:
-          - build
+          root: .
+          paths:
+            - build
   test:
     docker:
      - image: circleci/node:8.11
     steps:
       - checkout
       - attach_workspace:
-        at: .
+          at: .
       - run: yarn test
   deploy:
     docker:
@@ -50,10 +49,10 @@ jobs:
         - develop
     steps:
       - attach_workspace:
-        at: .
+          at: .
       - run:
-        name: Install awscli
-        command: sudo pip install awscli
+          name: Install awscli
+          command: sudo pip install awscli
       - run:
-        name: Deploy to S3
-        command: aws s3 sync ./build s3://test-ci-deploy-survivor --delete
+          name: Deploy to S3
+          command: aws s3 sync ./build s3://test-ci-deploy-survivor --delete
