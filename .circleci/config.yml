@@ -44,7 +44,8 @@ jobs:
         at: .
       - run: yarn test
   deploy:
-    image: circleci/python:2.7-jessie
+    docker:
+      - image: circleci/python:2.7-jessie
     steps:
       - attach_workspace:
         at: .
