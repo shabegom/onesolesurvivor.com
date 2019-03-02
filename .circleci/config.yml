@@ -1,77 +1,77 @@
 defaults: &defaults
-	docker:
-		- image: circleci/node:8.11
+  docker:
+    - image: circleci/node:8.11
 
 version: 2
 jobs:
-	prepare:
-		<<: *defaults
-		steps:
-			- checkout
-			  # Download and cache dependencies
-			- restore_cache:
-				keys:
-					- v1-dependencies-{{ checksum "package.json" }}
-					  # fallback to using the latest cache if no exact match is found
-					- v1-dependencies-
+  prepare:
+    <<: *defaults
+    steps:
+      - checkout
+        # Download and cache dependencies
+      - restore_cache:
+        keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
 
-			- run: yarn install
+      - run: yarn install
 
-			- save_cache:
-				paths:
-						- node_modules
-				key: v1-dependencies-{{ checksum "package.json" }}
-			- persist_to_workspace:
-				root: .
-				paths:
-					- node_modules
-	build:
-		<<: *defaults
-		steps:
-			- checkout
-			- attach_workspace:
-				at: .
-			- run: yarn build
-			- persist_to_workspace:
-				root: .
-				paths:
-					- build
-	test:
-		<<: *defaults
-		steps:
-			- checkout
-			- attach_workspace:
-				at: .
-			- run: yarn test
-i	deploy:
-		image: circleci/python:2.7-jessie
-		steps:
-			- attach_workspace:
-				at: .
-			- run:
-				name: Install awscli
-				command: sudo pip install awscli
-			- run:
-				name: Deploy to S3
-				command: aws s3 sync ./build s3://test-ci-deploy-survivor --delete
+      - save_cache:
+        paths:
+            - node_modules
+        key: v1-dependencies-{{ checksum "package.json" }}
+      - persist_to_workspace:
+        root: .
+        paths:
+          - node_modules
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+        at: .
+      - run: yarn build
+      - persist_to_workspace:
+        root: .
+        paths:
+          - build
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+        at: .
+      - run: yarn test
+i deploy:
+    image: circleci/python:2.7-jessie
+    steps:
+      - attach_workspace:
+        at: .
+      - run:
+        name: Install awscli
+        command: sudo pip install awscli
+      - run:
+        name: Deploy to S3
+        command: aws s3 sync ./build s3://test-ci-deploy-survivor --delete
 
 workflows:
-	version: 2
-	test:
-		jobs:
-			- prepare
-			- test:
-				requires:
-					- prepare
-	deploy:
-		jobs:
-			- prepare
-			- build:
-				requires:
-					- prepare
-			- deploy:
-				requires:
-					- build
-				filters:
-					branches:
-						only: master
+  version: 2
+  test:
+    jobs:
+      - prepare
+      - test:
+        requires:
+          - prepare
+  deploy:
+    jobs:
+      - prepare
+      - build:
+        requires:
+          - prepare
+      - deploy:
+        requires:
+          - build
+        filters:
+          branches:
+            only: master
