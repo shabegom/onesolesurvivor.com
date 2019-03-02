@@ -43,7 +43,7 @@ jobs:
       - attach_workspace:
         at: .
       - run: yarn test
-i deploy:
+  deploy:
     image: circleci/python:2.7-jessie
     steps:
       - attach_workspace:
@@ -63,3 +63,15 @@ workflows:
       - test:
         requires:
           - prepare
+  deploy:
+    jobs:
+      - prepare
+      - build:
+        requires:
+          - prepare
+      - deploy:
+        requires:
+          - build
+        filters:
+          branches:
+            only: master
