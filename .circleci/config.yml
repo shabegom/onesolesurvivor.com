@@ -55,13 +55,13 @@ jobs:
           command: aws s3 sync ./build s3://test-ci-deploy-survivor --delete
 
 workflows:
-  version: 2
-  deploy:
-    jobs:
-      - prepare
-      - build:
-        requires:
-          - prepare  
-      - deploy:
-        requires:
-          - build
+    version: 2
+    deploy:
+        jobs:
+          - prepare
+          - build:
+              requires:
+                - prepare  
+          - deploy:
+              requires:
+                - build
