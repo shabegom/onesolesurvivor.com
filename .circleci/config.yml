@@ -55,9 +55,18 @@ workflows:
     deploy:
         jobs:
           - prepare
+          - test:
+              requires:
+                - prepare
           - build:
               requires:
                 - prepare  
+              filters:
+                branches:
+                    only: master
           - deploy:
               requires:
                 - build
+              filters:
+                branches:
+                    only: master
