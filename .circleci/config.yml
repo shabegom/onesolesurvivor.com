@@ -35,8 +35,8 @@ jobs:
       # build
       - run: yarn build
   deploy:
-         - image: circleci/python:2.7-jessie
      docker:
+         - image: circleci/python:2.7-jessie
     working_directory: ~/onesolesurvivor.com
     branches:
         only:
