@@ -44,9 +44,6 @@ jobs:
   deploy:
     docker:
        - image: circleci/python:2.7-jessie
-    branches:
-      ignore:
-        - develop
     steps:
       - attach_workspace:
           at: .
@@ -56,3 +53,15 @@ jobs:
       - run:
           name: Deploy to S3
           command: aws s3 sync ./build s3://test-ci-deploy-survivor --delete
+
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - prepare
+      - build:
+        requires:
+          - prepare  
+      - deploy:
+        requires:
+          - build
