@@ -1,0 +1,8 @@
+- change found and idol so an idol can be found and used in the same episode
+- idol found isn't cleaning up after idol is used
+- visual refresh for ghost island
+- Better logic around the current leader
+- Change the firebase endpoint to a new dbase
+- simplify where possible
+- Nice to have: episode summary of points.
+    - add pictures of castaways
