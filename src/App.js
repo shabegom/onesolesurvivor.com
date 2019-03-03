@@ -34,9 +34,9 @@ import { castawayArr } from './data.js'
 
 const pageStyle = {
     background:
-        'linear-gradient( RGBA(92,54,127,1.00),10%, RGBA(126,134,193,1.00), RGBA(43,93,167,1.00)',
-    color: 'RGBA(6,5,126,1.00)',
-    textShadow: '0px 0px 1px RGBA(233,227,201,.80)',
+        'linear-gradient(RGBA(126,134,193,1.00), RGBA(43,93,167,1.00), RGBA(40,30,50,1.00)',
+    color: 'RGBA(233,227,201,1.00)',
+    textShadow: '1px 1px 2px RGBA(73,53,66,1.00)'
 }
 
 class App extends Component {
@@ -204,7 +204,6 @@ class App extends Component {
                 })
             })
             handleIdolFound(hasIdols[0])
-
             let existingIdols = getState.once('value', snapshot => {
                 let idols = snapshot.val().hasIdol
                 if (idols) {
