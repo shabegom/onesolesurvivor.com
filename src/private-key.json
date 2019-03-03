@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "survivor-pool-2",
+  "private_key_id": "2105bc5354e4bc798c891fe30176391d3bea0ce2",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCm1QMgO51wEVRa\nzZTzR1Gz5mq7sBv2jcJ952FLjUVxdLxI8iOpGWIEXuCLMYb0rjo8NY1yQ5iDQoJc\nzRd3k9sUWlsPwPZeLWUMgxepVOvLhQXdJi4IeAU2cLep8DQfh9lj81l1dRn+gJWG\n7NCbuOpurCe/lHjL9wsh/G95DepDWE43m1e/buPkSnS9a5IgerYm6m/0YH/oWBsY\n1p7mQfPsmvM+Q9aOlKLspyRVnzKT7cl1CDSECboDapWo+S7gdHpaKz5LrfUDov6p\nKioECeCP8qHF2Mf6fJyml/dTgGIguvyjrKZPq9NBxBkBDsXq60Wmdp9aYdAQQNDx\nw72x7znHAgMBAAECggEANTj0d9Z86fElW5iFQb1JY96Iw1qx+QyNdRQZNnyZoFHQ\n9WaGGN63pdRMxyskNi/U9TtSZhcJcyqHIyrspyG8vPf8YAC7uBy8RWsW49brKHDG\nB6C0A9CiPRVlimnOfxacNCZArleO1OHZkgM/o8Ywx+DVB2nKxasI2q1JNLHLP/NK\nd1EOnV/5VB1CLhE6Ug8QV3Dujo3vYRWVJ6MrJ5KOub53oveEE7Cmfryk6ZTKp7ic\nAP0zpLZpLRwvIC3OSwkZ7FItDwEGY4JySfO0Gbm3b1jyzibVokqAqG5WXYPjkKW+\n8peco1DNLA2sVRCrL4/IOvXMy1ijfc2eP4H+Gcw5kQKBgQDYDKO307zFVbsCtOOg\nbSOGFNk2Y1C6mILSmXWokAYN9h7i4P2+vNB9f8lVGFIOPpizKXRafyrUtBpfuvaf\n8JsmtOxQjxLUsnkeE5YOvepf881RU5fpeCAmPv4Xw9e43KSkh+gHigzqL1WASJyU\niivlgfE0WI6wFgEALquGHpJPFwKBgQDFroVcVqfeSO5yOzrqep0XowT2TVmhPVUR\nrTlXhh6IVQ7epyFVtMycZkJF6NY+7ZN866iPuiRzk83cIxP+ppX28asHp+yTzk9B\nfOAjNx0YKhJ33a8jiqrW8MAx1UooaVZLqfxzr0zH/UgdIO13bnYxeetfw9UDNcML\nWAt+axGY0QKBgQCKWg29emo4NF49rXjXEwzcoB05JwBbfa7JDly6RQCbkDDXOR1F\nN8SLmXlkdN6XIJ7InJNWIHldHLiG9UNZyMqSTunF7NkyO9gz2ncNmbCtIYMpwU5W\nxAZSd6Rfs5pBV4pXknCT42PB0+386ILc3F6f6kZ8Lvmw6WZap4hPquQmoQKBgDFE\nDk519j4qtOpZIpS/XBlA8oKjwlux2lqebjUG4uMdN6h7xI4Ekh3ESm372jEyqlgu\nrwKq5Fy9kEd1oo0LXUJ+9h3hVs97UjtC8OU13hVgntuqrvRPocYRmASTYHjzz6Lp\nyVXXcW5CDE/eHfBu4hvwg52JQ7QaGPLhzXODIY6RAoGBAMnqZ3sEK+elAHcYDsxw\nEMq6l8w3Zd4sxVCnVQJNpcNQd1VF5mE7a9QP6cFNVQu6WtJNmJ5Up3j2o+1QNuVx\n5NazlWTTaU4a10gTDKFCkcfPHWZvc+LtdDpzixBibAGcJ4KSAYUlz7tEtSvfIqJj\nr4kUzn9llXvoh7JorwSI4bAC\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-6i8qt@survivor-pool-2.iam.gserviceaccount.com",
+  "client_id": "105111614689865864477",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-6i8qt%40survivor-pool-2.iam.gserviceaccount.com"
+}
