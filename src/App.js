@@ -87,7 +87,7 @@ class App extends Component {
                     let isEliminated = []
                     let castawayNames = []
                     castaways.forEach(castaway => {
-                       tribe.castaways.forEach(value => {
+                        tribe.castaways.forEach(value => {
                             if (castaway.value === value) {
                                 isEliminated.push(castaway.eliminated)
                                 castawayNames.push(castaway.label)
@@ -197,12 +197,12 @@ class App extends Component {
         const handleIdolChange = (element, event) => {
             let hasIdols = []
             castawayArr.forEach(c => {
-                    if (c.value === event) {
+                event.forEach(e => {
+                    if (c.value === e) {
                         hasIdols.unshift(c)
                     }
+                })
             })
-
-
             handleIdolFound(hasIdols[0])
             let existingIdols = getState.once('value', snapshot => {
                 let idols = snapshot.val().hasIdol

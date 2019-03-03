@@ -49,7 +49,6 @@ jobs:
       - run:
           name: Deploy to S3
           command: aws s3 sync ./build s3://onesolesurvivor.com --delete
-
 workflows:
     version: 2
     deploy:
