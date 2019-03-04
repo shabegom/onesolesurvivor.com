@@ -15,7 +15,7 @@ export default class Summary extends Component {
                 let eliminated = lastElement.eliminated
                 finalArr.push(
                     <p>
-                        {toTitleCase(eliminated.split('-').join(' '))} was
+                        {toTitleCase(eliminated.join('-').split('-').join(' '))} was
                         eliminated
                     </p>
                 )

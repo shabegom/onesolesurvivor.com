@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 class Eliminated extends React.Component {
     render() {
@@ -14,6 +14,7 @@ class Eliminated extends React.Component {
                             <div style={{ paddingBottom: '5px' }}>
                                 <div style={{background: 'RGBA(0,0,0,.30)', }}>
                                 <img
+                                    alt={'eliminated-castaway'+castaway.value}
                                     src={imagePath}
                                     style={{ width: '150px', opacity: '0.3', filter: 'drop-shadow(1px 0px 4px #4444dd)' }}
                                 />{' '}
