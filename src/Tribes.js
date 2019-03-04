@@ -11,6 +11,7 @@ export default class Tribes extends Component {
                     nameArray.push(
                         <div style={{paddingBottom: '10px'}}>
                             <img alt={'castaway-'+i} src={imagePath} style={{ width: '150px', filter: 'drop-shadow(1px 0px 4px RGBA(76,60,75,1.00))' }} />{' '}
+
                             <br />
                             <div style={{paddingRight: '5px'}}>{tribe.names[i]}</div>
                         </div>

@@ -148,7 +148,6 @@ selectionChange = stateKey => (element, event) => {
         this.props.processForm(data)
     
     }
-
     render() {
         const displayForm = () => {
             return (
@@ -168,7 +167,6 @@ selectionChange = stateKey => (element, event) => {
 			<input type="checkbox" name="buffs" value={ this.state.buffs }  onChange={this.buffsChange}/> Drop your buffs? <br />
             { this.state.buffs ? <DisplayBuffs numTribes={this.state.numTribes} handleChange={this.selectionChange} addTribe={this.handleAddTribe} removeTribe={this.handleRemoveTribe} />: "" }
 			</div>
-
  <input style={{textAlign: 'center'}} className="btn btn-primary" formNoValidate={true} type="submit" defaultValue="Submit" />
                     </ Form>
                 { this.props.fireRedirect && (<Redirect to={ '/' } />) }

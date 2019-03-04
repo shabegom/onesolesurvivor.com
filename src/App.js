@@ -213,6 +213,7 @@ class App extends Component {
                                         merged={this.state.merged}
                                         hasIdol={this.state.hasIdol}
                                         />
+
                                 </Admin>
                             )}
                         />
