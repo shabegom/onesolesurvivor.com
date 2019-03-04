@@ -14,7 +14,7 @@ class Header extends Component {
     render() {
         return (
             <div>
-                <img src={logo} style={imageStyle} />
+                <img alt='Survivor Logo' src={logo} style={imageStyle} />
             </div>
         )
     }
