@@ -11,7 +11,7 @@ export const processFormObject = form => {
     } else {
     //Now we start setting up the different pointChecker functions.
     let pointRules = []
-    eliminated ? pointRules.push({ selected: eliminated, value: 1, gainOrLoss: 'loss' }) : ''
+        eliminated ? eliminated.forEach(person => pointRules.push({ selected: person, value: 1, gainOrLoss: 'loss' })) : ''
     immunity ? pointRules.push({ selected: immunity, value: 5, gainOrLoss: 'gain' }) : ''
     extinction ? pointRules.push({ selected: extinction, value: 5, gainOrLoss: 'gain' }) : ''
     idolFound ? idolFound.forEach(person => pointRules.push({selected: person, value: 5, gainOrLoss: 'gain'})) : ''
