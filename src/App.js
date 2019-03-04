@@ -14,23 +14,18 @@ import Home from './Home.js'
 import Admin from './Admin.js'
 import Login from './Login.js'
 import MainForm from './MainForm.js'
-import Idols from './Idols.js'
-import Merge from './Merge.js'
-import Buffs from './Buffs.js'
 
 //Helper functions
 import { processFormObject } from './utils.js'
 import {
-    getState,
-    getCastaways,
-    handleIdolFound,
-    setMerged,
+    // getState,
+    // handleIdolFound,
+    // setMerged,
     setTribal,
     setTeams,
     setTribes,
     getRoot
 } from './async.js'
-import { castawayArr } from './data.js'
 
 const pageStyle = {
     background:
@@ -180,59 +175,6 @@ class App extends Component {
             }
         }
 
-        const handleMergeChange = event => {
-            if (event.target.value === 'false') {
-                this.setState({
-                    merged: true
-                })
-                setMerged(true)
-            } else if (event.target.value === 'true') {
-                this.setState({
-                    merged: false
-                })
-                setMerged(false)
-            }
-        }
-
-        const handleIdolChange = (element, event) => {
-            let hasIdols = []
-            castawayArr.forEach(c => {
-                event.forEach(e => {
-                    if (c.value === e) {
-                        hasIdols.unshift(c)
-                    }
-                })
-            })
-            handleIdolFound(hasIdols[0])
-            let existingIdols = getState.once('value', snapshot => {
-                let idols = snapshot.val().hasIdol
-                if (idols) {
-                    this.setState({ hasIdol: [...idols, hasIdols[0]] })
-                } else {
-                    this.setState({ hasIdol: [hasIdols[0]] })
-                }
-            })
-        }
-
-        const handleBuffsChange = event => {
-            if (event.target.value === 'false') {
-                this.setState({
-                    buffs: true
-                })
-            } else if (event.target.value === 'true') {
-                this.setState({
-                    buffs: false
-                })
-            }
-        }
-        const onAddTribe = event => {
-            this.setState({ numTribes: this.state.numTribes + 1 })
-        }
-
-        const onRemoveTribe = event => {
-            this.setState({ numTribes: this.state.numTribes - 1 })
-        }
-
         const baseUrl = process.env.PUBLIC_URL
 
         return (
@@ -268,21 +210,9 @@ class App extends Component {
                                         processForm={processForm}
                                         fireRedirect={this.state.fireRedirect}
                                         loggedIn={this.state.loggedIn}
-                                        idolChange={handleIdolChange}
-                                    >
-                                        <Idols hasIdol={this.state.hasIdol} />
-                                        <Merge
-                                            merged={this.state.merged}
-                                            mergeChange={handleMergeChange}
+                                        merged={this.state.merged}
+                                        hasIdol={this.state.hasIdol}
                                         />
-                                        <Buffs
-                                            removeTribe={onRemoveTribe}
-                                            addTribe={onAddTribe}
-                                            numTribes={this.state.numTribes}
-                                            buffs={this.state.buffs}
-                                            buffsChange={handleBuffsChange}
-                                        />
-                                    </MainForm>
                                 </Admin>
                             )}
                         />
