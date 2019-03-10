@@ -209,7 +209,7 @@ class App extends Component {
                                     <MainForm
                                         processForm={processForm}
                                         fireRedirect={this.state.fireRedirect}
-                                        loggedIn={this.state.loggedIn}
+                                        loggedIn={true}
                                         merged={this.state.merged}
                                         hasIdol={this.state.hasIdol}
                                         />

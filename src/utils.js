@@ -3,7 +3,8 @@
 import { castawaysMultiSelect, teams } from './data.js'
 
 export const processFormObject = form => {
-    const { tribal, eliminated, extinction, idolFound, immunity, reward } = form
+    console.log(form)
+    const { merged, tribal, eliminated, extinction, idolFound, immunity, reward } = form
 
     //required fields
     if (!eliminated || !tribal) {
@@ -13,7 +14,7 @@ export const processFormObject = form => {
     let pointRules = []
     eliminated ? eliminated.forEach(person => pointRules.push({ selected: person, value: 1, gainOrLoss: 'loss' })) : ''
     immunity ? pointRules.push({ selected: immunity, value: 5, gainOrLoss: 'gain' }) : ''
-    extinction ? pointRules.push({ selected: extinction, value: 5, gainOrLoss: 'gain' }) : ''
+    extinction ? extinction.forEach(person => pointRules.push({ selected: person, value: 5, gainOrLoss: 'gain' })) : ''
     idolFound ? idolFound.forEach(person => pointRules.push({selected: person, value: 5, gainOrLoss: 'gain'})) : ''
     reward ? reward.forEach(person => pointRules.push({selected: person, value: 5, gainOrLoss: 'gain'})) : ''
     const idolActions = createIdolObject(form)
@@ -45,16 +46,21 @@ export const processFormObject = form => {
         //the return object
         let obj = {}
         obj['eliminated'] = eliminated
+        obj['extinction'] = extinction ? extinction : []
         obj['complete'] = true
         obj['value'] = tribal
         obj['points'] = points
         obj['tribes'] = buffDrops
         obj['teams'] = teamsScores
         obj['summary'] =  {eliminated}
+        obj['merged'] = merged
+        obj['idolUsers'] = idolActioners.map(actioner => actioner.value)
+        obj['foundIdol'] = idolFound ? idolFound : []
         idolFound ? obj.summary['idolFound'] = idolFound : ''
         immunity ? obj.summary['immunity'] = immunity : ''
         reward ? obj.summary['reward'] = reward : ''
         idolActioners ? obj.summary['idolActions'] = idolActioners : ''
+        console.log(obj)
         return  obj
     }
 }
