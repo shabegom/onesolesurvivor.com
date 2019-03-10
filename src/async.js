@@ -14,7 +14,7 @@ const db = firebase.database()
 
 export const fbState = db.ref('/state')
 
-export const setMerged = mergedValue => {
+const setMerged = mergedValue => {
     if (mergedValue === true) {
         db.ref('/state/').update({ 'merged/': true })
     } else if (mergedValue === false) {
@@ -34,7 +34,9 @@ export const setTribal = points => {
         currentData.map((tribal, i) => {
             if (points.value === tribal.value) {
                 db.ref('/tribals/' + i + '/').update(points)
-                updateCastaway(points.eliminated)
+                updateCastaway(points.eliminated, points.extinction)
+                setMerged(points.merged)
+                setIdols(points.foundIdol, points.idolUsers)
                 return 'sucess'
             }
             return 'failure'
@@ -65,48 +67,35 @@ export const setTeams = points => {
     })
 }
 
-const updateCastaway = eliminatedCastawayArray => {
+const updateCastaway = ( eliminatedCastawayArray, returnedFromExtinctionArray ) => {
     getCastaways.once('value', snapshot => {
         let dbCastaways = snapshot.val() 
         let updatedCastaways = dbCastaways.map(castaway => {
             if (eliminatedCastawayArray.includes(castaway.value)) {
                 castaway.eliminated = 'TRUE' 
             }
-            return castaway
+         else if (returnedFromExtinctionArray.includes(castaway.value)) {
+                castaway.eliminated = 'FALSE' 
+        }
+        return castaway
         })
         db.ref('/castaways/').update(updatedCastaways)
     })
 }
 
-export const handleIdolFound = idolHolders => {
+const setIdols = (idolFinds, idolAction) => {
     getState.once('value', snapshot => {
-        let current = snapshot.val().hasIdol
-        if (current) {
-            let finalArr = current.concat(idolHolders)
-            db.ref('/state/hasIdol/').set(finalArr)
-        } else {
-            db.ref('/state/hasIdol/').set([idolHolders])
-        }
+        let currentIdolHolders = snapshot.val().hasIdol
+        let allIdolHolders = currentIdolHolders.concat(idolFinds)
+        /* eslint-disable */
+        let removedIdolUsers = allIdolHolders.filter(idolHolder => {
+            if (idolAction) {
+            if (!idolAction.includes(idolHolder)) {
+                return idolHolder 
+            }
+            } else {return idolHolder}
+        })
+        db.ref('/state/hasIdol/').set(removedIdolUsers)
     })
 }
 
-//TODO: known bug when someone holds more than 1 idol at a time
-const handleIdolAction = (state, idolActions) => {
-    console.log('running idol action')
-    state.once('value', snapshot => {
-        let finalArr = []
-        let idolHolders = snapshot.val().hasIdol
-        if (idolActions[0]) {
-            idolHolders.forEach(holder => {
-                idolActions.forEach(action => {
-                    if (holder.value !== action.value) {
-                        finalArr.push(holder)
-                    }
-                })
-            })
-        } else if (idolHolders) {
-            finalArr = idolHolders
-        }
-        db.ref('/state/hasIdol/').set(finalArr)
-    })
-}

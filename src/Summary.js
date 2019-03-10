@@ -30,7 +30,7 @@ export default class Summary extends Component {
                     })
                 }
                 if (lastElement.immunity) {
-                    let immunityWinner = lastElement.immunity
+                    let immunityWinner = lastElement.immunity.join('-')
                     finalArr.push(
                         <p>
                             {toTitleCase(immunityWinner.split('-').join(' '))}{' '}
