@@ -72,7 +72,8 @@ export default class Summary extends Component {
                         fontFamily: 'Arial, sans-serif'
                     }}
                 >
-                    <h3 style={{ textAlign: 'center' }}>Last Episode</h3>
+
+				<h3 style={{ textAlign: 'center' }}>Last Episode</h3>
                     {this.props.summary[0]
                         ? buildSummary(this.props.summary)
                         : "A summary of the last tribal will be posted here once we've started."}

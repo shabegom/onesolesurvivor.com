@@ -32,7 +32,6 @@ getCastaways.once('value', snapshot => {
             castawayArr.push(castaway)
         } else {
             eliminatedCastawayDropDown.push({value: castaway.value, label: castaway.label})
-    
     }
     })
     castawaysMultiSelect = castawayArr.map(c => {
