@@ -11,7 +11,7 @@ export const processFormObject = form => {
     } else {
     //Now we start setting up the different pointChecker functions.
     let pointRules = []
-        eliminated ? eliminated.forEach(person => pointRules.push({ selected: person, value: 1, gainOrLoss: 'loss' })) : ''
+    eliminated ? eliminated.forEach(person => pointRules.push({ selected: person, value: 1, gainOrLoss: 'loss' })) : ''
     immunity ? pointRules.push({ selected: immunity, value: 5, gainOrLoss: 'gain' }) : ''
     extinction ? pointRules.push({ selected: extinction, value: 5, gainOrLoss: 'gain' }) : ''
     idolFound ? idolFound.forEach(person => pointRules.push({selected: person, value: 5, gainOrLoss: 'gain'})) : ''
@@ -44,6 +44,7 @@ export const processFormObject = form => {
         })
         //the return object
         let obj = {}
+        obj['eliminated'] = eliminated
         obj['complete'] = true
         obj['value'] = tribal
         obj['points'] = points
@@ -110,7 +111,6 @@ const createIdolObject = form => {
             actionArr.push({selected: person, value: 0, gainOrLoss: 'gain', type: 'burned'})
         }
     })
-    console.log(actionArr)
     return actionArr
 }
 

@@ -5,7 +5,7 @@ require('firebase/database')
 // Set the configuration for your app
 // TODO: Replace with your project's config object
 const config = {
-    databaseURL: 'https://survivor-david-goliath.firebaseio.com/'
+    databaseURL: 'https://survivor3-4a563.firebaseio.com/'
 }
 
 firebase.initializeApp(config)
@@ -34,8 +34,7 @@ export const setTribal = points => {
         currentData.map((tribal, i) => {
             if (points.value === tribal.value) {
                 db.ref('/tribals/' + i + '/').update(points)
-                updateCastaway(getCastaways, points.summary.eliminated)
-                handleIdolAction(getState, points.summary.idolActions)
+                updateCastaway(points.eliminated)
                 return 'sucess'
             }
             return 'failure'
@@ -66,14 +65,16 @@ export const setTeams = points => {
     })
 }
 
-const updateCastaway = (castaways, eliminated) => {
-    castaways.once('value', snapshot => {
-        let currentCastaways = snapshot.val()
-        currentCastaways.forEach((castaway, i) => {
-            if (castaway.value === eliminated) {
-                db.ref('/castaways/' + i + '/').update({ eliminated: 'TRUE' })
+const updateCastaway = eliminatedCastawayArray => {
+    getCastaways.once('value', snapshot => {
+        let dbCastaways = snapshot.val() 
+        let updatedCastaways = dbCastaways.map(castaway => {
+            if (eliminatedCastawayArray.includes(castaway.value)) {
+                castaway.eliminated = 'TRUE' 
             }
+            return castaway
         })
+        db.ref('/castaways/').update(updatedCastaways)
     })
 }
 
