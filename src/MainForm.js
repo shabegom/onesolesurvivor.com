@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Select, Input } from 'formsy-react-components'
 import { eliminatedCastawayDropDown, castawaysMultiSelect, castawaysDropDown,  tribals, idolActions } from './data.js'
+
 import { Redirect } from 'react-router'
 import { withFirebase } from './Firebase'
 
@@ -40,6 +41,93 @@ const HandleIdol = (hasIdol) => {
 	})
 	return (
 		<div>
+			{ idols }
+		</div>
+    )
+
+}
+
+    const Tribe = (props) => {
+		return (
+			<div>
+			                <Input
+                    name={"tribe-name-" + props.number}
+                    value=""
+                    type="text"
+                    placeholder="Tribe Name"
+                />
+				                <Select
+                    name={"tribe-members-" + props.number}
+                    options={castawaysMultiSelect}
+					help="hold command to choose multiple"
+                    multiple
+				/>
+			</div>
+		);
+	}
+
+
+const DisplayBuffs = (props) => {
+const children = [];
+        for (var i = 0; i < props.numTribes; i += 1) {
+            children.push(<Tribe number={i} id={i} onChange={props.handleChange} selected={props.selected}/>);
+        };
+	return (
+		<div className="buffs">
+	<input type="button" className="btn btn-standard" name="new-tribe" onClick={props.addTribe} defaultValue="New Tribe" />
+	<input type="button" className="btn btn-alert" name="remove-tribe" onClick={props.removeTribe} defaultValue="Remove Tribe" />
+		{children}
+		</div>
+	)
+}
+
+
+const Selected = (props) => <div style={{paddingLeft: '10%', width: '30%', marginLeft: '30%', marginBottom: '10px'}}>{props.selection && props.selection.join(' ')}</div>
+
+const Selection = (props) => {
+
+    return (
+        <>
+        <Select
+            name={props.name}
+            label={props.label}
+            options={props.options}
+            required={props.required || false}
+            onChange={props.handleChange}
+        />
+        <Selected selection={props.selected}/>
+    </>
+    )
+
+}
+
+
+const displayMerged = (selectionChange) => {
+	return (
+		<div className="merged">
+            <Selection name='immunity' label='Who won immunity?' options={castawaysDropDown} handleChange={selectionChange('immunity')} />
+            <Selection name='reward' label='Who won reward?' options={castawaysDropDown} handleChange={selectionChange('reward')} />
+		</div>
+	)
+}
+
+
+const HandleIdol = (hasIdol) => {
+	let idols = hasIdol.map(( castaway, i ) => {
+		return (
+			<div key={i} >
+			{ castaway }
+				                <Select
+                    name={"idolAction-" + castaway}
+                    options={idolActions}
+                />
+			</div>
+		)
+
+	})
+	return (
+		<div>
+        {idols[0] ? <h3>Did anyone use their idol?</h3> : ''}
 			{ idols }
 		</div>
     )
@@ -168,6 +256,7 @@ selectionChange = stateKey => (element, event) => {
 		</div>
                     : ''}
                 </div>
+
 			<div>
 			<input type="checkbox" name="buffs" value={ this.state.buffs }  onChange={this.buffsChange}/> Drop your buffs? <br />
             { this.state.buffs ? <DisplayBuffs numTribes={this.state.numTribes} handleChange={this.selectionChange} addTribe={this.handleAddTribe} removeTribe={this.handleRemoveTribe} />: "" }

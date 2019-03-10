@@ -60,7 +60,7 @@ export default class Table extends Component {
                 </div>
                 <ReactTable
                     className={'-highlight -striped'}
-                    defaultPageSize={12}
+                    defaultPageSize={15}
                     showPagination={false}
                     data={this.props.data}
                     columns={columns}
