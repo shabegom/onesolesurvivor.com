@@ -8,9 +8,9 @@ const config = {
     databaseURL: 'https://survivor3-4a563.firebaseio.com/'
 }
 
-firebase.initializeApp(config)
+const legacy = firebase.initializeApp(config, 'legacy')
 
-const db = firebase.database()
+const db = legacy.database()
 
 export const fbState = db.ref('/state')
 
@@ -86,7 +86,7 @@ const updateCastaway = ( eliminatedCastawayArray, returnedFromExtinctionArray ) 
 const setIdols = (idolFinds, idolAction) => {
     getState.once('value', snapshot => {
         let currentIdolHolders = snapshot.val().hasIdol
-        let allIdolHolders = currentIdolHolders.concat(idolFinds)
+        let allIdolHolders = currentIdolHolders ? currentIdolHolders.concat(idolFinds) : idolFinds
         /* eslint-disable */
         let removedIdolUsers = allIdolHolders.filter(idolHolder => {
             if (idolAction) {

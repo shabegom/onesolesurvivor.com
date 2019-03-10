@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Select, Input } from 'formsy-react-components'
 import { eliminatedCastawayDropDown, castawaysMultiSelect, castawaysDropDown,  tribals, idolActions } from './data.js'
 import { Redirect } from 'react-router'
+import { withFirebase } from './Firebase'
 
 const Selected = (props) => <div style={{paddingLeft: '10%', width: '30%', marginLeft: '30%', marginBottom: '10px'}}>{props.selection && props.selection.join(' ')}</div>
 
@@ -137,9 +138,14 @@ selectionChange = stateKey => (element, event) => {
         data.merged = this.state.merged ? this.state.merged : this.props.merged
         data.immunity = this.state.immunity
         data.reward = this.state.reward
+		this.props.firebase.auth.onAuthStateChanged(user => {
+			if (user) {
+				this.props.processForm(data)
+				this.props.firebase.doSignOut()
+			}
+				
+})
 
-        this.props.processForm(data)
-    
     }
     render() {
         const displayForm = () => {
@@ -180,4 +186,4 @@ selectionChange = stateKey => (element, event) => {
     }
 }
 
-export default MainForm
+export default withFirebase(MainForm)

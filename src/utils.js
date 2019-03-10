@@ -60,7 +60,6 @@ export const processFormObject = form => {
         immunity ? obj.summary['immunity'] = immunity : ''
         reward ? obj.summary['reward'] = reward : ''
         idolActioners ? obj.summary['idolActions'] = idolActioners : ''
-        console.log(obj)
         return  obj
     }
 }

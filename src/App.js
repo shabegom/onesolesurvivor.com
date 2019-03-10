@@ -149,21 +149,10 @@ class App extends Component {
         })
     }
 
+	handleLogin = () => this.setState({ loggedIn: true, showLogin: false }) 
+
 
     render() {
-        const checkSecret = secret => {
-            if (secret === 'worthplayingfor') {
-                this.setState({
-                    loggedIn: true,
-                    showLogin: false,
-                    failed: false
-                })
-            } else {
-                this.setState({
-                    failed: true
-                })
-            }
-        }
 
         const processForm = formData => {
             const points = processFormObject(formData)
@@ -203,13 +192,12 @@ class App extends Component {
                                 <Admin>
                                     <Login
                                         showLogin={this.state.showLogin}
-                                        checkSecret={checkSecret}
-                                        failed={this.state.failed}
+										handleLogin={this.handleLogin}
                                     />
                                     <MainForm
                                         processForm={processForm}
                                         fireRedirect={this.state.fireRedirect}
-                                        loggedIn={true}
+                                        loggedIn={this.state.loggedIn}
                                         merged={this.state.merged}
                                         hasIdol={this.state.hasIdol}
                                         />
