@@ -1,20 +1,42 @@
 import React, { Component } from 'react';
 import { Input, Form } from 'formsy-react-components'
+import { withFirebase } from './Firebase'
 
 class Login extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {failed: false}    
+        }
+
+    onSubmit = event => {
+        const {email, password} = event
+        this.props.firebase
+            .doSignInWithEmailAndPassword(email, password)
+            .then(() => {
+              this.props.handleLogin()
+                })
+            .catch(() => {
+                this.setState({failed: true})
+                })
+    }
+
 	render() {
 		const displayLogin = (showLogin) => {
 			if (showLogin) {
 				return (
 					<div>
-					<Form onSubmit={data => this.props.checkSecret(data.secret)} >
+					<Form onSubmit={data => this.onSubmit(data)} >
+                    <Input
+                    name="email"
+                    type='text'
+                    placeholder='Email Address'
+                    />
 					<Input
-					name="secret"
-					value=""
-					label="enter the secret code"
+					name="password"
+					placeholder="enter the secret code"
 					type="password"
-					buttonAfter={<button className="btn btn-primary" type="button">Go!</button>}
 					/>
+ <input style={{textAlign: 'center'}} className="btn btn-primary" formNoValidate={true} type="submit" defaultValue="Login" />
 					</ Form>
 					</div>
 				)
@@ -24,10 +46,11 @@ class Login extends Component {
 		return (
 			<div>
 				{ displayLogin(this.props.showLogin) }
-			    { this.props.failed ? "login failed!" : "" }
+			    { this.state.failed ? "login failed!" : "" }
 			</div>
 		);
 	}
 }
 
-export default Login
+
+export default withFirebase(Login)

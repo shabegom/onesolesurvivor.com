@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Form, Select, Input } from 'formsy-react-components'
-import { castawaysMultiSelect, castawaysDropDown,  tribals, idolActions } from './data.js'
+import { eliminatedCastawayDropDown, castawaysMultiSelect, castawaysDropDown,  tribals, idolActions } from './data.js'
+
 import { Redirect } from 'react-router'
+import { withFirebase } from './Firebase'
 
 const Selected = (props) => <div style={{paddingLeft: '10%', width: '30%', marginLeft: '30%', marginBottom: '10px'}}>{props.selection && props.selection.join(' ')}</div>
 
@@ -23,15 +25,6 @@ const Selection = (props) => {
 }
 
 
-const displayMerged = (selectionChange) => {
-	return (
-		<div className="merged">
-            <Selection name='immunity' label='Who won immunity?' options={castawaysDropDown} handleChange={selectionChange('immunity')} />
-            <Selection name='reward' label='Who won reward?' options={castawaysDropDown} handleChange={selectionChange('reward')} />
-		</div>
-	)
-}
-
 
 const HandleIdol = (hasIdol) => {
 	let idols = hasIdol.map(( castaway, i ) => {
@@ -48,7 +41,6 @@ const HandleIdol = (hasIdol) => {
 	})
 	return (
 		<div>
-        {idols[0] ? <h3>Did anyone use their idol?</h3> : ''}
 			{ idols }
 		</div>
     )
@@ -94,9 +86,8 @@ class MainForm extends Component {
     constructor(props) {
         super(props) 
         this.state = {
-            merged: this.props.merged,
             buffs: false,
-            numTribes: 2
+            numTribes: 2,
         }
     }
 
@@ -142,11 +133,20 @@ selectionChange = stateKey => (element, event) => {
 
     processForm = data => {
         data.eliminated = this.state.eliminated
+        data.extinction = this.state.extinction
         data.idolFound = this.state.foundIdol
         data.reward = this.state.reward
+        data.merged = this.state.merged ? this.state.merged : this.props.merged
+        data.immunity = this.state.immunity
+        data.reward = this.state.reward
+		this.props.firebase.auth.onAuthStateChanged(user => {
+			if (user) {
+				this.props.processForm(data)
+				this.props.firebase.doSignOut()
+			}
+				
+})
 
-        this.props.processForm(data)
-    
     }
     render() {
         const displayForm = () => {
@@ -155,14 +155,21 @@ selectionChange = stateKey => (element, event) => {
                     <Form onSubmit={data => this.processForm(data)} >
                         <Selection name='tribal' label='Select Which Tribal' selected={this.state.tribal} options={tribals} required={true} handleChange={this.selectionChange('tribal')}/>
                         <Selection name='eliminated' label='Who was eliminated?' selected={this.state.eliminated} options={castawaysDropDown} required={true} handleChange={this.selectionChange('eliminated')}/>
-                        <Selection name='extinction' label='Did anyone return from extinction?' selected={this.state.extinction} options={castawaysDropDown} required={false} handleChanfe={this.selectionChange('extinction')} />
+                        <Selection name='extinction' label='Did anyone return from extinction?' selected={this.state.extinction} options={eliminatedCastawayDropDown} required={false} handleChange={this.selectionChange('extinction')} />
                             <Selection name='idolFound' label='Anyone find an idol?' selected={this.state.foundIdol} options={castawaysDropDown} handleChange={this.selectionChange('foundIdol')} />
+        {this.props.hasIdol || this.state.foundIdol ? <h3>Did anyone use their idol?</h3> : ''}
+			{ this.props.hasIdol ? HandleIdol(this.props.hasIdol) : ""}
 			{ this.state.foundIdol ? HandleIdol(this.state.foundIdol) : ""}
-
         <div>
-			<input type="checkbox" name="merge" checked= {this.state.merged} value= { this.state.merged }  onChange={this.mergeChange}/> Made it to the merge? <br />
-			{ this.state.merged ? displayMerged(this.selectionChange) : ''}
-        </div>
+			<input type="checkbox" name="merge" checked={this.state.merged || this.props.merged} value= { this.state.merged || this.props.merged }  onChange={this.mergeChange}/> Made it to the merge? <br />
+            { this.state.merged || this.props.merged ?
+		<div className="merged">
+            <Selection name='immunity' label='Who won immunity?' options={castawaysDropDown} handleChange={this.selectionChange('immunity')} selected={this.state.immunity} />
+            <Selection name='reward' label='Who won reward?' options={castawaysDropDown} handleChange={this.selectionChange('reward')}  selected={this.state.reward} />
+		</div>
+                    : ''}
+                </div>
+
 			<div>
 			<input type="checkbox" name="buffs" value={ this.state.buffs }  onChange={this.buffsChange}/> Drop your buffs? <br />
             { this.state.buffs ? <DisplayBuffs numTribes={this.state.numTribes} handleChange={this.selectionChange} addTribe={this.handleAddTribe} removeTribe={this.handleRemoveTribe} />: "" }
@@ -181,4 +188,4 @@ selectionChange = stateKey => (element, event) => {
     }
 }
 
-export default MainForm
+export default withFirebase(MainForm)
