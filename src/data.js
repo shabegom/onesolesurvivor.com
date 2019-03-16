@@ -23,13 +23,16 @@ getTribals.once('value', snapshot => {
 export let castawaysMultiSelect = []
 export let castawaysDropDown = []
 export let castawayArr = []
+export let eliminatedCastawayDropDown = [{value: '', label: 'Choose a loser'}]
 
 getCastaways.once('value', snapshot => {
     let castaways = snapshot.val()
     castaways.forEach(castaway => {
         if (castaway.eliminated === 'FALSE') {
             castawayArr.push(castaway)
-        }
+        } else {
+            eliminatedCastawayDropDown.push({value: castaway.value, label: castaway.label})
+    }
     })
     castawaysMultiSelect = castawayArr.map(c => {
         let { label, value } = c
