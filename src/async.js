@@ -5,7 +5,7 @@ require('firebase/database')
 // Set the configuration for your app
 // TODO: Replace with your project's config object
 const config = {
-    databaseURL: 'https://survivor-david-goliath.firebaseio.com/'
+    databaseURL: process.env.REACT_APP_DATABASE_URL
 }
 
 const legacy = firebase.initializeApp(config, 'legacy')
