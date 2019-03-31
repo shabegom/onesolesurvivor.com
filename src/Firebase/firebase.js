@@ -30,21 +30,17 @@ class Firebase {
   getTribals = this.db.ref("/tribals");
   getTribal = tribal => this.db.ref(`/tribals/${tribal}`);
   getTeams = this.db.ref("/teams");
+  getTeam = team => this.db.ref(`/teams/${team}`);
+  getTribes = this.db.ref("/tribes");
   getState = this.db.ref("/state");
   /* Database  setters  */
 
+  setCastaways = updatedCastaways => this.getCastaways.update(updatedCastaways);
   setTribal = points => this.getTribal(points.value).update(points);
-  setCastaway = (eliminated, extinction) =>
-    this.getCastaways.once("value", snap =>
-      snap.val().map(castaway => {
-        if (eliminated.find(castaway.value)) {
-          castaway.eliminated = "TRUE";
-        }
-        if (extinction.find(castaway.value)) {
-          castaway.eliminated = "FALSE";
-        }
-      })
-    );
+  setMerged = isMerged => this.getState.update({ "/merged/": isMerged });
+  setIdols = updatedIdols =>
+    this.getState.update({ "/hasIdol/": updatedIdols });
+  setTeams = teams => this.getTeams.update(teams);
+  setTribes = tribes => this.getTribes.update(tribes);
 }
-
 export default Firebase;
