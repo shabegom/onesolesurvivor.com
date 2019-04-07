@@ -10,37 +10,63 @@ const config = {
   storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID
 };
+app.initializeApp(config);
+const auth = app.auth();
+const db = app.database();
 
-class Firebase {
-  constructor() {
-    app.initializeApp(config);
-    this.auth = app.auth();
-    this.db = app.database();
-  }
-  /* Sign In to Admin */
+function Firebase(auth, db) {
+  /* [> Sign In to Admin <] */
 
-  doSignInWithEmailAndPassword = (email, password) =>
-    this.auth.signInWithEmailAndPassword(email, password);
-  doSignOut = () => this.auth.signOut();
+  const doSignInWithEmailAndPassword = (email, password) =>
+    auth.signInWithEmailAndPassword(email, password);
+  const doSignOut = () => auth.signOut();
 
-  /* Database Getters */
-  getRoot = this.db.ref("/");
-  getCastaways = this.db.ref("/castaways");
-  getCastaway = num => this.db.ref(`/castaways/${num}`);
-  getTribals = this.db.ref("/tribals");
-  getTribal = tribal => this.db.ref(`/tribals/${tribal}`);
-  getTeams = this.db.ref("/teams");
-  getTeam = team => this.db.ref(`/teams/${team}`);
-  getTribes = this.db.ref("/tribes");
-  getState = this.db.ref("/state");
-  /* Database  setters  */
+  /* [> Database Getters <] */
 
-  setCastaways = updatedCastaways => this.getCastaways.update(updatedCastaways);
-  setTribal = points => this.getTribal(points.value).update(points);
-  setMerged = isMerged => this.getState.update({ "/merged/": isMerged });
-  setIdols = updatedIdols =>
-    this.getState.update({ "/hasIdol/": updatedIdols });
-  setTeams = teams => this.getTeams.update(teams);
-  setTribes = tribes => this.getTribes.update(tribes);
+  const getRoot = () => db.ref("/");
+  const getCastaways = () => db.ref("/castaways");
+  const getCastaway = num => db.ref(`/castaways/${num}`);
+  const getTribals = () => db.ref("/tribals");
+  const getTribal = tribal => db.ref(`/tribals/${tribal}`);
+  const getTeams = () => db.ref("/teams");
+  const getTeam = team => db.ref(`/teams/${team}`);
+  const getTribes = () => db.ref("/tribes");
+  const getState = () => db.ref("/state");
+
+  // [> Database  setters  <]
+
+  const setCastaways = updatedCastaways =>
+    getCastaways().update(updatedCastaways);
+  const setTribal = points => getTribal(points.value).update(points);
+  const setMerged = isMerged => getState().update({ "/merged/": isMerged });
+  const setIdols = updatedIdols =>
+    getState().update({ "/hasIdol/": updatedIdols });
+  const setTeams = teams => getTeams().update(teams);
+  const setTribes = tribes => getTribes().update(tribes);
+  return {
+    auth: { doSignInWithEmailAndPassword, doSignOut, auth },
+    db: {
+      get: {
+        getRoot,
+        getCastaways,
+        getCastaway,
+        getTribals,
+        getTribal,
+        getTeams,
+        getTeam,
+        getTribes,
+        getState
+      },
+      set: {
+        setCastaways,
+        setTribal,
+        setMerged,
+        setIdols,
+        setTeams,
+        setTribes
+      }
+    }
+  };
 }
-export default Firebase;
+
+export default Firebase(auth, db);
