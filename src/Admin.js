@@ -1,25 +1,12 @@
-import React from 'react'
+import React from "react";
+import { withFirebase } from "./Firebase";
+import { withAuth } from "./Session";
+import { compose } from "recompose";
 
 const styles = {
-    padding: '10px'
+  padding: "10px"
+};
 
-}
-
-
-class Admin extends React.Component {
-	render() {
-
-
-
-		return (
-			<div style={styles}>
-			{ this.props.children }
-			</div>
-
-		)
-	}
-
-}
-
-export default Admin
-
+export default withFirebase(function Admin(props) {
+  return <div style={styles}>{props.children}</div>;
+});

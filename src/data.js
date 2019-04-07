@@ -24,13 +24,16 @@ export let castawaysMultiSelect = []
 export let castawaysDropDown = []
 export let castawayArr = []
 export let eliminatedCastawayDropDown = [{value: '', label: 'Choose a loser'}]
+export let allCastaways = []
 
 getCastaways.once('value', snapshot => {
     let castaways = snapshot.val()
     castaways.forEach(castaway => {
         if (castaway.eliminated === 'FALSE') {
             castawayArr.push(castaway)
+            allCastaways.push(castaway)
         } else {
+            allCastaways.push(castaway)
             eliminatedCastawayDropDown.push({value: castaway.value, label: castaway.label})
     }
     })

@@ -20,22 +20,17 @@ jobs:
   build:
     docker:
        - image: circleci/node:8.11
-    environment:
-<<<<<<< HEAD
-        REACT_APP_API_KEY: $REACT_APP_API_KEY
-        REACT_APP_AUTH_DOMAIN: $REACT_APP_AUTH_DOMAIN
-=======
-        REACT_APP_API_KEY=$REACT_APP_API_KEY REACT_APP_AUTH_DOMAIN: $REACT_APP_AUTH_DOMAIN
->>>>>>> ace9c4f811412fc18d9e95efb36ae7653c10a6da
-        REACT_APP_DATABASE_URL: $REACT_APP_DATABASE_URL
-        REACT_APP_MESSAGING_SENDER_ID: REACT_APP_MESSAGING_SENDER_ID
-        REACT_APP_PROJECT_ID: $REACT_APP_PROJECT_ID
-        REACT_APP_STORAGE_BUCKET: $REACT_APP_STORAGE_BUCKET
     steps:
       - checkout
       - attach_workspace:
           at: .
+<<<<<<< HEAD
+      - run:
+          name: Build the app
+          command: 'REACT_APP_API_KEY=$REACT_APP_API_KEY REACT_APP_AUTH_DOMAIN=$REACT_APP_AUTH_DOMAIN REACT_APP_DATABASE_URL=$REACT_APP_DATABASE_URL REACT_APP_MESSAGING_SENDER_ID=REACT_APP_MESSAGING_SENDER_ID REACT_APP_PROJECT_ID=$REACT_APP_PROJECT_ID REACT_APP_STORAGE_BUCKET=$REACT_APP_STORAGE_BUCKET yarn build'
+=======
       - run: yarn build
+>>>>>>> develop
       - persist_to_workspace:
           root: .
           paths:
