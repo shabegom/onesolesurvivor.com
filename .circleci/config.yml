@@ -56,9 +56,6 @@ workflows:
     deploy:
         jobs:
           - prepare
-          - test:
-              requires:
-                - prepare
           - build:
               requires:
                 - prepare  
