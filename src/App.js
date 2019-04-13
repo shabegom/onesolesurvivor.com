@@ -81,14 +81,13 @@ class App extends Component {
           let isEliminated = [];
           let castawayNames = [];
           castaways.forEach(castaway => {
-            tribe.castaways.filter(Boolean).forEach(value => {
+            tribe.castaways.forEach(value => {
               if (castaway.value === value) {
                 isEliminated.push(castaway.eliminated);
                 castawayNames.push(castaway.label);
               }
             });
           });
-          tribe.castaways = tribe.castaways.filter(Boolean);
           tribe["eliminated"] = isEliminated;
           tribe["names"] = castawayNames;
         });

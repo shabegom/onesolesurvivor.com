@@ -26,7 +26,9 @@ export const processFormObject = form => {
         )
       : "";
     immunity
-      ? pointRules.push({ selected: immunity, value: 5, gainOrLoss: "gain" })
+      ? immunity.forEach(person =>
+          pointRules.push({ selected: immunity, value: 5, gainOrLoss: "gain" })
+        )
       : "";
     extinction
       ? extinction.forEach(person =>
